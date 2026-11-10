@@ -2,6 +2,7 @@
 import argparse
 import json
 import re
+import ssl
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -93,7 +94,11 @@ def main():
         html = args.input.read_text(encoding='utf-8')
     else:
         request = Request(SOURCE, headers={'User-Agent': 'HaLinh-PublicCalendar/1.0', 'Accept': 'text/html'})
-        with urlopen(request, timeout=45) as response:
+        context = ssl.create_default_context()
+        # The source server omits its intermediate certificate. Supply the
+        # issuer from GlobalSign while keeping hostname and root verification.
+        context.load_verify_locations(cafile=str(Path(__file__).with_name('calendar-issuer.pem')))
+        with urlopen(request, timeout=45, context=context) as response:
             if response.status != 200:
                 raise ValueError('Calendar source unavailable')
             html = response.read(5_000_001).decode('utf-8')
