@@ -8,6 +8,8 @@ on:
     paths:
       - '.github/workflows/sync-calendar.yml'
       - 'scripts/sync_calendar.py'
+      - 'index.html'
+      - 'ky-nang-nghiep-vu/**'
 permissions:
   contents: write
   pages: write
