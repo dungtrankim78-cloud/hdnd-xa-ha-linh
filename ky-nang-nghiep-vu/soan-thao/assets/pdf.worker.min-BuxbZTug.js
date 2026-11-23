@@ -1,0 +1,1 @@
+var e=`/hdnd-xa-ha-linh/ky-nang-nghiep-vu/soan-thao/assets/pdf.worker.min-CIqJB0yW.mjs`;export{e as default};
